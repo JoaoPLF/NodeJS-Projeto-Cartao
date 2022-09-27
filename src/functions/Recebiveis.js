@@ -1,9 +1,10 @@
-const criaRecebivel = async (valor, dataPagamento, metodoPagamento) => {
-  const Recebivel = require("../models/Recebivel");
+const sequelize = require("sequelize");
+const Recebivel = require("../models/Recebivel.model");
 
+const criarRecebivel = async ({ valor, dataPagamento, metodoPagamento }) => {
   const [novoValor, novaDataPagamento, status] = defineRegras(valor, dataPagamento, metodoPagamento);
 
-  const recebivel = await Recebivel.create({
+  return await Recebivel.create({
     valor: novoValor,
     dataPagamento: novaDataPagamento,
     status
@@ -20,10 +21,7 @@ const defineRegras = (valor, dataPagamento, metodoPagamento) => {
 }
 
 
-const retornaSaldo = async () => {
-  const sequelize = require("sequelize");
-  const Recebivel = require("../models/Recebivel");
-
+const retornarSaldo = async () => {
   const available = await Recebivel.findAll({
     attributes: [[sequelize.fn("sum", sequelize.col("valor")), "total"]],
     where: {
@@ -45,4 +43,4 @@ const retornaSaldo = async () => {
   return { available, waitingFunds };
 };
 
-module.exports = { criaRecebivel, retornaSaldo };
+module.exports = { criarRecebivel, retornarSaldo };

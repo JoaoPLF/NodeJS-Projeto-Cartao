@@ -1,8 +1,9 @@
 const { Sequelize } = require("sequelize");
 const { Client } = require("pg");
-const { username, password, database, dialect, host, port } = require("./config.json");
+const { username, password, database, dialect, host, port } = require("../../config.json");
+const sequelize = new Sequelize({ username, password, database, dialect, host, port });
 
-(async () => {
+const criarDataBase = async () => {
   const client = new Client({
     user: username,
     password,
@@ -26,11 +27,9 @@ const { username, password, database, dialect, host, port } = require("./config.
   }
 
   await client.end();
-})();
+};
 
-const sequelize = new Sequelize({ username, password, database, dialect, host, port });
-
-(async () => {
+const criarConexao = async () => {
   try {
     await sequelize.authenticate();
     console.log("Conexao bem-sucedida");
@@ -38,6 +37,6 @@ const sequelize = new Sequelize({ username, password, database, dialect, host, p
   catch (err) {
     console.log("Falha na conexao", err);
   }
-})();
+};
 
-module.exports = sequelize;
+module.exports = { sequelize, criarDataBase, criarConexao };

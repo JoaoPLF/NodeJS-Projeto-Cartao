@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../database");
-const syncModel = require("./sync");
+const { sequelize } = require("../config/database");
 
 const Transacao = sequelize.define("Transacao", {
   valor: {
@@ -35,7 +34,5 @@ const Transacao = sequelize.define("Transacao", {
 }, {
   tableName: "Transacoes"
 });
-
-syncModel(Transacao);
 
 module.exports = Transacao;

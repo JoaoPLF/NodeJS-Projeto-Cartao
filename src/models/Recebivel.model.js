@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
-const sequelize = require("../database");
-const syncModel = require("./sync");
+const { sequelize } = require("../config/database");
 
 const Recebivel = sequelize.define("Recebivel", {
   "status": {
@@ -19,7 +18,5 @@ const Recebivel = sequelize.define("Recebivel", {
 }, {
   tableName: "Recebiveis"
 });
-
-syncModel(Recebivel);
 
 module.exports = Recebivel;

@@ -1,9 +1,10 @@
-require("./functions/Init");
+const { iniciarConfiguracoes } = require("./src/config/Init");
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
 
 app.use(bodyParser.json());
+iniciarConfiguracoes();
 
 app.get("/transacoes", async (req, res) => {
   const Transacao = require("./models/Transacao");
@@ -18,10 +19,10 @@ app.get("/transacoes", async (req, res) => {
 });
 
 app.get("/saldo", async (req, res) => {
-  const { retornaSaldo } = require("./functions/Recebiveis");
+  const { retornarSaldo } = require("./functions/Recebiveis");
 
   try {
-    const saldo = await retornaSaldo();
+    const saldo = await retornarSaldo();
     return res.send(saldo);
   }
   catch (err) {
@@ -30,13 +31,13 @@ app.get("/saldo", async (req, res) => {
 });
 
 app.post("/transacao", async (req, res) => {
-  const { criaTransacao } = require("./functions/Transacoes");
-  const { criaRecebivel } = require("./functions/Recebiveis");
+  const { criarTransacao } = require("./functions/Transacoes");
+  const { criarRecebivel } = require("./functions/Recebiveis");
   const { valor, descricao, metodoPagamento, numeroCartao, nomePortadorCartao, dataValidadeCartao, cvvCartao } = req.body;
 
   try {
-    await criaTransacao(valor, descricao, metodoPagamento, numeroCartao, nomePortadorCartao, dataValidadeCartao, cvvCartao);
-    await criaRecebivel(valor, new Date(), metodoPagamento);
+    await criarTransacao(valor, descricao, metodoPagamento, numeroCartao, nomePortadorCartao, dataValidadeCartao, cvvCartao);
+    await criarRecebivel(valor, new Date(), metodoPagamento);
 
     return res.send("Transacao realizada com sucesso!");
   }
