@@ -1,5 +1,4 @@
-# NodeJS
-**Projeto Cartão**
+# NodeJS - Projeto Cartão
 
 Projeto baseado no desafio da Pagar.me (https://github.com/pagarme/vagas/blob/master/desafios/software-engineer-backend/README.md)
 
